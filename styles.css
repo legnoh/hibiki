@@ -1,0 +1,17 @@
+.x-grid-row-over .x-grid-cell-inner {
+  font-weight: bold;
+}
+
+.x-action-col-cell img {
+  height: 16px;
+  width: 16px;
+  cursor: pointer;
+}
+
+.x-action-col-cell img.add-col {
+  background-image: url(add.gif);
+}
+
+.x-action-col-cell img.del-col {
+  background-image: url(delete.gif);
+}

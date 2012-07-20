@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript">
+webkitNotifications.createNotification('icon.png','Hello!','Lorem ipsum...').show();
+</script>
+<link rel="stylesheet" type="text/css" href="resources/css/ext-all.css" />
+<script type="text/javascript" src="ext-all.js"></script>
+<script type="text/javascript">
+Ext.require([
+    'Ext.data.*',
+    'Ext.util.*',
+    'Ext.state.*'
+]);
+
+Ext.onReady(function(){
+  var store;
+
+  Ext.define('Book',{
+    extend: 'Ext.data.Model',
+    fields: [
+      {name: 'title', type: 'string',defaultValue:'(タイトル無し)'},
+      {name: 'id', type:'string'},
+      {name: 'published',type:'date'},
+      {name: 'author', mapping:'author > name', type:'string'},
+      {name: 'notifyCheck',type:'boolean',defaultValue:false}
+    ]
+  });
+
+  //配信リストを読み込む。無ければ新たに生成する。
+  if(localStorage.LivetubeList){
+    store = localStorage.LivetubeList;
+  }
+
+  notifyBookmarkLive();
+
+  //RSSの更新、並びに新しい配信が来たら更新する
+  function notifyBookmarkLive(){
+    newstore = Ext.create('Ext.data.Store', {
+      model: 'Book',
+      autoLoad: true,
+      proxy: {
+        type: 'ajax',
+        url:  'http://livetube.cc/index.live.xml',
+        reader: {
+          type: 'xml',
+          record: 'entry'
+        }
+      }
+    });
+
+    //storeとnewstoreを比較して、store内にあるもので通知済みがある場合はそれを引き継ぐ。
+
+
+    //localStorageに放り投げておく
+    localStorage.LivetubeList = store;
+
+    /**storeの中でお気に入りの対象者＆未通知のものがある場合通知ウィンドウを出す。
+    var notification = webkitNotifications.createNotification(
+      'icon.png',  // icon url - can be relative
+      'Hello!',  // notification title
+      'Lorem ipsum...'  // notification body text
+    ).show();*/
+
+    //無限ループで10分ごとにstoreを再構築
+    //setTimeout("notifyBookmarkLive",  0.25*60000);
+  }
+});
+</script>
+</head>
+<body>
+<script type="text/javascript">
+    //storeの中でお気に入りの対象者＆未通知のものがある場合通知ウィンドウを出す。
+    //setTimeout(,  5 *1000);
+</script>
+</body>
+</html>

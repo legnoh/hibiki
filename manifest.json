@@ -1,0 +1,20 @@
+{
+  "name": "響 -Hibiki-",
+  "version": "1.0.1",
+  "description": "Livetube(http://livetube.cc/)の配信一覧を取得するソフトです。",
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_title": "Hibiki",
+    "default_popup": "popup.html"
+  },
+  "background": { "scripts": ["ext-all.js","background.js"] },
+"content_scripts": [ {
+  "matches": ["http://livetube.cc/"],
+  "css":["resources/css/ext-all.css","resources/css/ext-standard.css"],
+  "js": ["ext-all.js","ext.js","bootstrap.js"]
+} ],
+  "permissions": [
+    "http://livetube.cc/","notifications","background"
+  ],
+  "manifest_version": 1
+}
